@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trading Platform</title>
+</head>
+<body>
+    <h1>Welcome, {{ username }}</h1>
+    <p>Balance: ${{ balance }}</p>
+    <form id="orderForm" method="post" action="/order">
+        <label for="token">Token:</label>
+        <select id="token" name="token">
+            <option value="BTC">BTC</option>
+            <option value="ETH">ETH</option>
+        </select>
+        <br>
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" step="0.01" required>
+        <br>
+        <label for="order_type">Order Type:</label>
+        <select id="order_type" name="order_type">
+            <option value="buy">Buy</option>
+            <option value="sell">Sell</option>
+        </select>
+        <br>
+        <button type="submit">Submit Order</button>
+    </form>
+    <h2>Your Orders:</h2>
+    <div id="orders"></div>
+    <button onclick="loadOrders()">Load Orders</button>
+    <a href="/logout">Logout</a>
+    <script>
+        async function loadOrders() {
+            const response = await fetch('/orders');
+            const orders = await response.json();
+            const ordersDiv = document.getElementById('orders');
+            ordersDiv.innerHTML = '';
+            orders.forEach(order => {
+                ordersDiv.innerHTML += `<p>Order ID: ${order.id}, Token: ${order.token}, Amount: ${order.amount}, Type: ${order.order_type}</p>`;
+            });
+        }
+        document.getElementById('orderForm').onsubmit = async function (event) {
+            event.preventDefault();
+            const form = event.target;
+            const data = {
+                token: form.token.value,
+                amount: form.amount.value,
+                order_type: form.order_type.value,
+            };
+            const response = await fetch('/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+            const result = await response.json();
+            alert(result.message);
+        };
+    </script>
+</body>
+</html>
