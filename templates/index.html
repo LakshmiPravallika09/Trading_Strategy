@@ -1,61 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Trading Platform</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Welcome, {{ username }}</h1>
-    <p>Balance: ${{ balance }}</p>
-    <form id="orderForm" method="post" action="/order">
-        <label for="token">Token:</label>
-        <select id="token" name="token">
-            <option value="BTC">BTC</option>
-            <option value="ETH">ETH</option>
-        </select>
-        <br>
-        <label for="amount">Amount:</label>
-        <input type="number" id="amount" name="amount" step="0.01" required>
-        <br>
-        <label for="order_type">Order Type:</label>
-        <select id="order_type" name="order_type">
-            <option value="buy">Buy</option>
-            <option value="sell">Sell</option>
-        </select>
-        <br>
-        <button type="submit">Submit Order</button>
-    </form>
-    <h2>Your Orders:</h2>
-    <div id="orders"></div>
-    <button onclick="loadOrders()">Load Orders</button>
-    <a href="/logout">Logout</a>
-    <script>
-        async function loadOrders() {
-            const response = await fetch('/orders');
-            const orders = await response.json();
-            const ordersDiv = document.getElementById('orders');
-            ordersDiv.innerHTML = '';
-            orders.forEach(order => {
-                ordersDiv.innerHTML += `<p>Order ID: ${order.id}, Token: ${order.token}, Amount: ${order.amount}, Type: ${order.order_type}</p>`;
-            });
-        }
-        document.getElementById('orderForm').onsubmit = async function (event) {
-            event.preventDefault();
-            const form = event.target;
-            const data = {
-                token: form.token.value,
-                amount: form.amount.value,
-                order_type: form.order_type.value,
-            };
-            const response = await fetch('/order', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
-            const result = await response.json();
-            alert(result.message);
-        };
-    </script>
+    <h1>Welcome, {{ current_user.username if current_user.is_authenticated else 'Guest' }}</h1>
+    <p>Balance: $1000</p>
+
+    <div>
+        {% if current_user.is_authenticated %}
+            <form action="{{ url_for('logout') }}" method="POST" style="display:inline;">
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="{{ url_for('register') }}">Register</a> |
+            <a href="{{ url_for('login') }}">Login</a>
+        {% endif %}
+    </div>
+
+    <div>
+        <h2>Submit Order</h2>
+        <form action="{{ url_for('submit_order') }}" method="POST">
+            <label for="token">Token:</label>
+            <select id="token" name="token" required>
+                <option value="BTC">BTC</option>
+                <option value="ETH">ETH</option>
+                <option value="USDT">USDT</option>
+            </select><br>
+
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" required><br>
+
+            <label for="order-type">Order Type:</label>
+            <select id="order-type" name="order-type" required>
+                <option value="buy">Buy</option>
+                <option value="sell">Sell</option>
+            </select><br>
+
+            <button type="submit">Submit Order</button>
+        </form>
+    </div>
 </body>
 </html>
