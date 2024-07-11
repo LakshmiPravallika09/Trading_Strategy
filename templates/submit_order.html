@@ -1,1 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Order</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Submit Order</h1>
+        <div class="order-form">
+    
+                <div class="form-group">
+                    <label for="token">Token:</label>
+                    <select id="token" name="token" required>
+                        <option value="BTC">BTC</option>
+                        <option value="ETH">ETH</option>
+                        <option value="USDT">USDT</option>
+                        <!-- Add more tokens as needed -->
+                    </select>
+                </div>
 
+                <div class="form-group">
+                    <label for="amount">Amount:</label>
+                    <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="order-type">Order Type:</label>
+                    <select id="order-type" name="order-type" required>
+                        <option value="buy">Buy</option>
+                        <option value="sell">Sell</option>
+                    </select>
+                </div>
+
+                <button type="submit">Submit Order</button>
+        </div>
+    </div>
+</body>
+</html>
