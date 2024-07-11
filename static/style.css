@@ -1,8 +1,69 @@
- 
+/* styles.css */
+
 body {
     font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
 }
 
-a {
-    margin: 0 10px;
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    margin-bottom: 10px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #333;
+    margin-right: 10px;
+}
+
+.order-form {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.transaction-history {
+    margin-top: 20px;
+}
+
+.transaction-history table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+.transaction-history th, .transaction-history td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.transaction-history th {
+    background-color: #f2f2f2;
 }
